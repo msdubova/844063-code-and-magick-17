@@ -1,7 +1,7 @@
 # Учебный проект «Код и Магия» [![Build status][travis-image]][travis-url]
 
 * Студент: [Olga Dubova](https://up.htmlacademy.ru/javascript/17/user/844063).
-* Наставник: `Неизвестно`.
+* Наставник: `Евгений Щеколдин`.
 
 ---
 
