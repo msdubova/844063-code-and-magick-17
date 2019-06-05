@@ -27,6 +27,17 @@ var getMaxElement = function (array) {
   return maxElement;
 };
 
+var generateHSLString = function(h, s, l) {
+  var resultHSL  = 'hsl('+ h +', ' + s +'%, ' + l + '%)';
+  return resultHSL;
+};
+
+var generateRandomSaturationString = function(h, l) {
+  var randomS = Math.round(Math.random() * 100);
+
+  return generateHSLString(h, randomS, l);
+};
+
 window.renderStatistics = function (ctx, names, times) {
   renderCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, 'rgba(0, 0, 0, 0.7)');
   renderCloud(ctx, CLOUD_X, CLOUD_Y, 'white');
@@ -38,14 +49,19 @@ window.renderStatistics = function (ctx, names, times) {
   var maxTime = getMaxElement(times);
 
 
+
+
   for (var i = 0; i < names.length; i++) {
+    var random  =  Math.floor((Math.random() * 100) + 1) + '%';
+    var randomColor = 'hsl(255, ' + random + ', 50%)';
+    console.log(randomColor);
     ctx.fillStyle = '#000';
     ctx.fillText(names[i], CLOUD_X + GAP * 4 + (TEXT_WIDTH + 50) * i, CLOUD_Y + CLOUD_HEIGHT - GAP * 2 - FONT_GAP);
 
     if (names[i] === 'Вы') {
       ctx.fillStyle = 'rgb(255, 0, 0)';
     } else {
-      ctx.fillStyle = 'blue';
+      ctx.fillStyle = randomColor;
     }
 
     ctx.fillRect(CLOUD_X + GAP * 4 + (TEXT_WIDTH + 50) * i, CLOUD_Y + CLOUD_HEIGHT - GAP * 2 - FONT_GAP - GAP - ((barHeight * times[i]) / maxTime), TEXT_WIDTH, (barHeight * times[i]) / maxTime);
@@ -56,7 +72,8 @@ window.renderStatistics = function (ctx, names, times) {
 };
 
 // Как я пыталась решить загадку с насыщенностью
-// var randomColor = 'hsl(255, random, 50%)';
+//
 
 // var random  =  Math.floor((Math.random() * 100) + 1) + '%';
+// var randomColor = 'hsl(255, random, 50%)';
 // Планировалось, что randomColor будет использоваться вместо blue на 48 строке
