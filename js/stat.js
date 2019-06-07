@@ -73,8 +73,14 @@ var generateRandomSaturationString = function (h, l) {
 var renderResults = function (ctx, names, times) {
   var maxTime = getMaxElement(times);
   for (var i = 0; i < names.length; i++) {
+    /**
+     * nameX - начальная координата X для имен игроков
+     * nameY - начальная координата Y для имен игроков
+     */
+    var nameX = CLOUD_X + GAP * 4 + (TEXT_WIDTH + 50) * i;
+    var nameY = CLOUD_Y + CLOUD_HEIGHT - GAP * 2 - FONT_GAP;
     ctx.fillStyle = '#000';
-    ctx.fillText(names[i], CLOUD_X + GAP * 4 + (TEXT_WIDTH + 50) * i, CLOUD_Y + CLOUD_HEIGHT - GAP * 2 - FONT_GAP);
+    ctx.fillText(names[i], nameX, nameY);
 
     if (names[i] === 'Вы') {
       ctx.fillStyle = 'rgb(255, 0, 0)';
@@ -82,10 +88,27 @@ var renderResults = function (ctx, names, times) {
       ctx.fillStyle = generateRandomSaturationString(255, 50);
     }
 
-    ctx.fillRect(CLOUD_X + GAP * 4 + (TEXT_WIDTH + 50) * i, CLOUD_Y + CLOUD_HEIGHT - GAP * 2 - FONT_GAP - GAP - ((barHeight * times[i]) / maxTime), TEXT_WIDTH, (barHeight * times[i]) / maxTime);
+    /**
+     * rectX - начальная координата Х для столбцов гистограммы каждого игрока
+     * rectY - начальная координата Y для столбцов гистограммы каждого игрока
+     * rectHeight - высота столбца гистограммы каждого игрока пропорциональна полученному результату в игре
+     */
+    var rectX = CLOUD_X + GAP * 4 + (TEXT_WIDTH + 50) * i;
+    var rectY = CLOUD_Y + CLOUD_HEIGHT - GAP * 2 - FONT_GAP - GAP - ((barHeight * times[i]) / maxTime);
+    var rectHeight = (barHeight * times[i]) / maxTime;
+
+    ctx.fillRect(rectX, rectY, TEXT_WIDTH, rectHeight);
+
+    /**
+     * scoreX - начальная координата X для числового показателя результата над столбца гистограммы каждого игрока
+     * scoreY - начальная координата Y для числового показателя результата над столбца гистограммы каждого игрока
+     */
+
+    var scoreX = CLOUD_X + GAP * 4 + (TEXT_WIDTH + 50) * i;
+    var scoreY = CLOUD_Y + CLOUD_HEIGHT - GAP * 2 - FONT_GAP - GAP - ((barHeight * times[i]) / maxTime) - FONT_GAP;
 
     ctx.fillStyle = '#000';
-    ctx.fillText(Math.round(times[i]), CLOUD_X + GAP * 4 + (TEXT_WIDTH + 50) * i, CLOUD_Y + CLOUD_HEIGHT - GAP * 2 - FONT_GAP - GAP - ((barHeight * times[i]) / maxTime) - FONT_GAP);
+    ctx.fillText(Math.round(times[i]), scoreX, scoreY);
   }
 };
 
