@@ -17,16 +17,13 @@ var showModal = function () {
   var wizardBoard = document.querySelector('.setup');
   wizardBoard.classList.remove('hidden');
   document.querySelector('.setup-similar').classList.remove('hidden');
-}
+};
 
 showModal();
 
 var createWizards = function () {
   for (var i = 0; i < 4; i++) {
-
-
-      var wizardCloned = similarWizardTemplate.cloneNode(true);
-
+    var wizardCloned = similarWizardTemplate.cloneNode(true);
 
     /**
      * Функция создает случайное число в диапазоне ячеек массива опрокинутого в эту функцию параметром с учетом его длины
@@ -35,11 +32,13 @@ var createWizards = function () {
      */
     var getRandomInRange = function (arr) {
       var min = 0;
-      return Math.floor(Math.random() * ((arr.length-1) - min + 1)) + min;
+      return Math.floor(Math.random() * ((arr.length - 1) - min + 1)) + min;
     };
 
     /**
      * Функция создает имя персонажа
+     * @param {arr} names массив имен
+     * @param {arr} surnames массив фамилий
      * @return {string} имя фамилия
      */
     var generateFullName = function (names, surnames) {
@@ -49,11 +48,11 @@ var createWizards = function () {
     /**
      * Функция создает случайные стили
      * @param {arr} styles массив со стилями
-     * @return {}
+     * @return {string} возвращает случайный стиль
      */
-    var generateStyle  = function (styles) {
+    var generateStyle = function (styles) {
       return (styles[getRandomInRange(styles)]);
-    }
+    };
 
     wizardCloned.querySelector('.setup-similar-label').textContent = generateFullName(WIZARD_NAMES, WIZARD_SURNAMES);
     wizardCloned.querySelector('.wizard-coat').style.fill = generateStyle(COAT_COLORS);
