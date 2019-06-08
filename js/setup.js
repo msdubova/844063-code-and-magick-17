@@ -24,7 +24,7 @@ for (var i = 0; i < 4; i++) {
    */
   var getRandomInRange = function (arr) {
     var min = 0;
-    return Math.floor(Math.random() * (arr.length - min + 1)) + min;
+    return Math.floor(Math.random() * ((arr.length-1) - min + 1)) + min;
   };
 
   var generateFullName = WIZARD_NAMES[getRandomInRange(WIZARD_NAMES)] + ' ' + WIZARD_SURNAMES[getRandomInRange(WIZARD_SURNAMES)];
