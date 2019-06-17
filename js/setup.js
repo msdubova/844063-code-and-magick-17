@@ -12,11 +12,11 @@ var fragment = document.createDocumentFragment();
 /**
  * Функция показывает окно с персонажами
  */
-var showModal = function () {
-  var wizardBoard = document.querySelector('.setup');
-  wizardBoard.classList.remove('hidden');
-  document.querySelector('.setup-similar').classList.remove('hidden');
-};
+// var showModal = function () {
+//   var wizardBoard = document.querySelector('.setup');
+//   wizardBoard.classList.remove('hidden');
+//   document.querySelector('.setup-similar').classList.remove('hidden');
+// };
 
 /**
      * Функция создает случайное число в диапазоне ячеек массива опрокинутого в эту функцию параметром с учетом его длины
@@ -47,16 +47,6 @@ var generateStyle = function (styles) {
   return (styles[getRandomInRange(styles)]);
 };
 
-// var createWizards = function () {
-//   for (var i = 0; i < 4; i++) {
-//     var wizardCloned = similarWizardTemplate.cloneNode(true);
-//     wizardCloned.querySelector('.setup-similar-label').textContent = generateFullName(WIZARD_NAMES, WIZARD_SURNAMES);
-//     wizardCloned.querySelector('.wizard-coat').style.fill = generateStyle(COAT_COLORS);
-//     wizardCloned.querySelector('.wizard-eyes').style.fill = generateStyle(EYES_COLORS);
-
-//     similarWizardsList.appendChild(wizardCloned);
-//   }
-// };
 
 var createWizards = function () {
   for (var i = 0; i < 4; i++) {
@@ -71,7 +61,106 @@ var createWizards = function () {
   }
 };
 
-showModal();
+// showModal();
 createWizards();
 
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
+var setup = document.querySelector('.setup');
+var openSetup = document.querySelector('.setup-open');
+var closeSetup = setup.querySelector('.setup-close');
+var submitButton = setup.querySelector('.setup-submit');
+var form = setup.querySelector('.setup-wizard-form');
+var userNameInput = setup.querySelector('.setup-user-name');
 
+/**
+ * Функция - обработчик, слушает элемент на предмет клика клавиши 27 и возвращает выполнение функции closePopup
+ * @param {*} evt
+ */
+var onPopupEscPress = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closePopup();
+  }
+};
+/**
+ * Функция удаляет класс hidden у элемента, тем самым показывая его на странице, а также добавляет обработчик событий на документ и на кнопку формы
+ */
+var openPopup = function () {
+  setup.classList.remove('hidden');
+
+  document.addEventListener('keydown', onPopupEscPress);
+  submitButton.addEventListener('click', onButtonClick);
+  submitButton.addEventListener('keydown',onButtonPush);
+};
+
+/**
+ * Функция добавляет элементу класс hidden, тем самым скрывая его, а также удаляет обработчик событий с документа и с кнопки формы
+ */
+var closePopup = function () {
+  setup.classList.add('hidden');
+  document.removeEventListener('keydown', onPopupEscPress);
+  submitButton.removeEventListener('click', onButtonClick);
+  submitButton.removeEventListener('keydown',onButtonPush);
+};
+
+
+
+var onButtonClick = function () {
+  userNameInput.addEventListener('invalid', function(){
+    checkValidity(evt);
+    setCustomValidity(evt);
+  });
+};
+
+var onButtonPush = function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    userNameInput.addEventListener('invalid', function() {
+      checkValidity(evt);
+      setCustomValidity(evt);
+    // form.submit();
+    });
+  }
+};
+
+
+var checkValidity = function (evt) {
+  if (userNameInput.validity.tooShort) {
+    userNameInput.setCustomValidity('Минимальное значение символов - 2. Добавьте символы');
+  } else if (userNameInput.validity.tooLong) {
+    userNameInput.setCustomValidity('Минимальное значение символов - 25. Удалите лишние символы');
+  } else if (userNameInput.validity.valueMissing) {
+    userNameInput.setCustomValidity('Это поле обязательное для заполнения');
+  } else {
+    userNameInput.setCustomValidity('');
+  }
+};
+
+var setCustomValidity = function (evt) {
+  var target = evt.target;
+  if (target.value.length < 2) {
+    target.setCustomValidity('Имя должно состоять минимум из 2-х символов');
+  } else {
+    target.setCustomValidity('');
+  }
+};
+
+
+openSetup.addEventListener('click', function () {
+  openPopup();
+});
+
+openSetup.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    openPopup();
+  }
+});
+
+closeSetup.addEventListener('click', function () {
+  closePopup();
+});
+
+closeSetup.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    closePopup();
+  }
+});
