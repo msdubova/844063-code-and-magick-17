@@ -7,6 +7,7 @@ var WIZARD_NAMES = ['Иван', 'Хуан', 'Себастьян', 'Мария', 
 var WIZARD_SURNAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
 var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
 var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
+var FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
 var fragment = document.createDocumentFragment();
 
 /**
@@ -47,7 +48,9 @@ var generateStyle = function (styles) {
   return (styles[getRandomInRange(styles)]);
 };
 
-
+/**
+ * Функция добавляет персонажей в разметку
+ */
 var createWizards = function () {
   for (var i = 0; i < 4; i++) {
     var wizardCloned = similarWizardTemplate.cloneNode(true);
@@ -72,6 +75,9 @@ var closeSetup = setup.querySelector('.setup-close');
 var submitButton = setup.querySelector('.setup-submit');
 var form = setup.querySelector('.setup-wizard-form');
 var userNameInput = setup.querySelector('.setup-user-name');
+var wizardCoat = document.querySelector('#wizard-coat');
+var wizardEyes = document.querySelector('#wizard-eyes');
+var wizardFireball = document.querySelector('.setup-fireball-wrap');
 
 /**
  * Функция - обработчик, слушает элемент на предмет клика клавиши 27 и возвращает выполнение функции closePopup
@@ -82,6 +88,7 @@ var onPopupEscPress = function (evt) {
     closePopup();
   }
 };
+
 /**
  * Функция удаляет класс hidden у элемента, тем самым показывая его на странице, а также добавляет обработчик событий на документ и на кнопку формы
  */
@@ -91,6 +98,15 @@ var openPopup = function () {
   document.addEventListener('keydown', onPopupEscPress);
   submitButton.addEventListener('click', onButtonClick);
   submitButton.addEventListener('keydown',onButtonPush);
+  wizardCoat.addEventListener('click', function() {
+    getRandomItem(wizardCoat, COAT_COLORS)
+  });
+  wizardEyes.addEventListener('click', function(){
+    getRandomItem(wizardEyes, EYES_COLORS)
+  });
+  wizardFireball.addEventListener('click', function(){
+    getRandomBackground(wizardFireball, FIREBALL_COLORS)
+  });
 };
 
 /**
@@ -104,7 +120,9 @@ var closePopup = function () {
 };
 
 
-
+/**
+ * Функция проверяет валидность формы при клике
+ */
 var onButtonClick = function () {
   userNameInput.addEventListener('invalid', function(){
     checkValidity(evt);
@@ -112,6 +130,10 @@ var onButtonClick = function () {
   });
 };
 
+/**
+ * Функция проверяет валидность формы при нажатии на клавишу
+ * @param {*} evt
+ */
 var onButtonPush = function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
     userNameInput.addEventListener('invalid', function() {
@@ -122,7 +144,10 @@ var onButtonPush = function (evt) {
   }
 };
 
-
+/**
+ * Функция кастомизирует значения сообщений о невалидности
+ * @param {*} evt
+ */
 var checkValidity = function (evt) {
   if (userNameInput.validity.tooShort) {
     userNameInput.setCustomValidity('Минимальное значение символов - 2. Добавьте символы');
@@ -135,6 +160,10 @@ var checkValidity = function (evt) {
   }
 };
 
+/**
+ * Функция отправляет сообшение об ошибках в поле ввода формы
+ * @param {*} evt
+ */
 var setCustomValidity = function (evt) {
   var target = evt.target;
   if (target.value.length < 2) {
@@ -143,6 +172,24 @@ var setCustomValidity = function (evt) {
     target.setCustomValidity('');
   }
 };
+
+/**
+ * Функция присваивает случайный стиль fill элементу
+ * @param {object} item
+ * @param {string[]} array
+ */
+var getRandomItem = function (item,array ) {
+  item.style.fill = generateStyle(array);
+};
+
+/**
+ * Функция присваивает случайный стиль background элементу
+ * @param {object} item
+ * @param {string[]} array
+ */
+var getRandomBackground = function (item, array) {
+  item.style.background = generateStyle(array);
+}
 
 
 openSetup.addEventListener('click', function () {
@@ -164,3 +211,10 @@ closeSetup.addEventListener('keydown', function (evt) {
     closePopup();
   }
 });
+
+
+
+
+
+
+
