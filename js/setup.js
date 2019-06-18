@@ -168,9 +168,12 @@ var checkValidity = function () {
  * @param {*} evt
  */
 var setCustomValidity = function (evt) {
+  evt.preventDefault();
   var target = evt.target;
   if (target.value.length < 2) {
-    target.setCustomValidity('Имя должно состоять минимум из 2-х символов');
+    target.setCustomValidity();
+  } else if (target.value.length > 25) {
+    target.setCustomValidity();
   } else {
     target.setCustomValidity('');
   }
