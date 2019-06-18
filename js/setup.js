@@ -75,9 +75,13 @@ var closeSetup = setup.querySelector('.setup-close');
 var submitButton = setup.querySelector('.setup-submit');
 var form = setup.querySelector('.setup-wizard-form');
 var userNameInput = setup.querySelector('.setup-user-name');
-var wizardCoat = document.querySelector('#wizard-coat');
-var wizardEyes = document.querySelector('#wizard-eyes');
+var wizardCoat = document.querySelector('.setup-wizard .wizard-coat');
+var wizardEyes = document.querySelector('.setup-wizard .wizard-eyes');
 var wizardFireball = document.querySelector('.setup-fireball-wrap');
+
+var coatInput = form.querySelector('input[name="coat-color"]');
+var eyesInput = form.querySelector('input[name="eyes-color"]');
+var fireballInput = form.querySelector('input[name="fireball-color"]');
 
 /**
  * Функция - обработчик, слушает элемент на предмет клика клавиши 27 и возвращает выполнение функции closePopup
@@ -97,15 +101,15 @@ var openPopup = function () {
 
   document.addEventListener('keydown', onPopupEscPress);
   submitButton.addEventListener('click', onButtonClick);
-  submitButton.addEventListener('keydown',onButtonPush);
-  wizardCoat.addEventListener('click', function() {
-    getRandomItem(wizardCoat, COAT_COLORS)
+  submitButton.addEventListener('keydown', onButtonPush);
+  wizardCoat.addEventListener('click', function () {
+    getRandomItem(wizardCoat, COAT_COLORS, coatInput);
   });
-  wizardEyes.addEventListener('click', function(){
-    getRandomItem(wizardEyes, EYES_COLORS)
+  wizardEyes.addEventListener('click', function () {
+    getRandomItem(wizardEyes, EYES_COLORS, eyesInput);
   });
-  wizardFireball.addEventListener('click', function(){
-    getRandomBackground(wizardFireball, FIREBALL_COLORS)
+  wizardFireball.addEventListener('click', function () {
+    getRandomBackground(wizardFireball, FIREBALL_COLORS, fireballInput);
   });
 };
 
@@ -116,7 +120,7 @@ var closePopup = function () {
   setup.classList.add('hidden');
   document.removeEventListener('keydown', onPopupEscPress);
   submitButton.removeEventListener('click', onButtonClick);
-  submitButton.removeEventListener('keydown',onButtonPush);
+  submitButton.removeEventListener('keydown', onButtonPush);
 };
 
 
@@ -124,21 +128,21 @@ var closePopup = function () {
  * Функция проверяет валидность формы при клике
  */
 var onButtonClick = function () {
-  userNameInput.addEventListener('invalid', function(){
-    checkValidity(evt);
-    setCustomValidity(evt);
+  userNameInput.addEventListener('invalid', function () {
+    checkValidity();
+    setCustomValidity();
   });
 };
 
 /**
  * Функция проверяет валидность формы при нажатии на клавишу
- * @param {*} evt
+ * @param {object} evt обработчик события
  */
 var onButtonPush = function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
-    userNameInput.addEventListener('invalid', function() {
-      checkValidity(evt);
-      setCustomValidity(evt);
+    userNameInput.addEventListener('invalid', function () {
+      checkValidity();
+      setCustomValidity();
     // form.submit();
     });
   }
@@ -146,9 +150,8 @@ var onButtonPush = function (evt) {
 
 /**
  * Функция кастомизирует значения сообщений о невалидности
- * @param {*} evt
  */
-var checkValidity = function (evt) {
+var checkValidity = function () {
   if (userNameInput.validity.tooShort) {
     userNameInput.setCustomValidity('Минимальное значение символов - 2. Добавьте символы');
   } else if (userNameInput.validity.tooLong) {
@@ -174,23 +177,26 @@ var setCustomValidity = function (evt) {
 };
 
 /**
- * Функция присваивает случайный стиль fill элементу
+ * Функция присваивает случайный стиль fill элементу и передает этот цвет в форму
  * @param {object} item
  * @param {string[]} array
+ * @param {object} input
  */
-var getRandomItem = function (item,array ) {
-  item.style.fill = generateStyle(array);
+var getRandomItem = function (item, array, input) {
+  input.value = generateStyle(array);
+  item.style.fill = input.value;
 };
 
 /**
  * Функция присваивает случайный стиль background элементу
  * @param {object} item
  * @param {string[]} array
+ * @param {object} input
  */
-var getRandomBackground = function (item, array) {
-  item.style.background = generateStyle(array);
-}
-
+var getRandomBackground = function (item, array, input) {
+  input.value = generateStyle(array);
+  item.style.background = input.value;
+};
 
 openSetup.addEventListener('click', function () {
   openPopup();
@@ -211,10 +217,3 @@ closeSetup.addEventListener('keydown', function (evt) {
     closePopup();
   }
 });
-
-
-
-
-
-
-
