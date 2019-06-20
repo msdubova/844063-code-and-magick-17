@@ -11,15 +11,6 @@ var FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
 var fragment = document.createDocumentFragment();
 
 /**
- * Функция показывает окно с персонажами
- */
-// var showModal = function () {
-//   var wizardBoard = document.querySelector('.setup');
-//   wizardBoard.classList.remove('hidden');
-//   document.querySelector('.setup-similar').classList.remove('hidden');
-// };
-
-/**
      * Функция создает случайное число в диапазоне ячеек массива опрокинутого в эту функцию параметром с учетом его длины
      * @param {number} arr  - принимает на вход длину массива с данными для того, чтоб вычислить длину массива и ограничить диапазон случайной выборки
      * @return {number} возвращает случайную ячейку массива из существующих в массиве
@@ -64,10 +55,6 @@ var createWizards = function () {
   }
 };
 
-// showModal();
-createWizards();
-
-
 var ESC_KEYCODE = 27;
 var ENTER_KEYCODE = 13;
 var setupPopupElement = document.querySelector('.setup');
@@ -100,6 +87,7 @@ var openPopup = function () {
   var submitButton = setupPopupElement.querySelector('.setup-submit');
   var closeSetup = setupPopupElement.querySelector('.setup-close');
   setupPopupElement.classList.remove('hidden');
+  createWizards();
   document.querySelector('.setup-similar').classList.remove('hidden');
 
   document.addEventListener('keydown', onPopupEscPress);
