@@ -57,11 +57,11 @@ var createWizards = function () {
 
 var ESC_KEYCODE = 27;
 var ENTER_KEYCODE = 13;
-var setupPopupElement = document.querySelector('.setup');
+var setupPopup = document.querySelector('.setup');
 var openSetup = document.querySelector('.setup-open');
 
-var form = setupPopupElement.querySelector('.setup-wizard-form');
-var userNameInput = setupPopupElement.querySelector('.setup-user-name');
+var form = setupPopup.querySelector('.setup-wizard-form');
+var userNameInput = setupPopup.querySelector('.setup-user-name');
 var wizardCoat = document.querySelector('.setup-wizard .wizard-coat');
 var wizardEyes = document.querySelector('.setup-wizard .wizard-eyes');
 var wizardFireball = document.querySelector('.setup-fireball-wrap');
@@ -69,13 +69,15 @@ var wizardFireball = document.querySelector('.setup-fireball-wrap');
 var coatInput = form.querySelector('input[name="coat-color"]');
 var eyesInput = form.querySelector('input[name="eyes-color"]');
 var fireballInput = form.querySelector('input[name="fireball-color"]');
+var isFocus = false;
+
 
 /**
- * Функция - обработчик, слушает элемент на предмет клика клавиши 27 и возвращает выполнение функции closePopup
+ * Функция - обработчик, слушает элемент на предмет клика клавиши 27 (Escape)и возвращает выполнение функции closePopup
  * @param {object} evt объект события, который передаётся первым аргументом в обработчик
  */
 var onPopupEscPress = function (evt) {
-  if (evt.keyCode === ESC_KEYCODE) {
+  if ((evt.keyCode === ESC_KEYCODE) && (isFocus === false)) {
     closePopup();
   }
 };
@@ -84,12 +86,17 @@ var onPopupEscPress = function (evt) {
  * Функция удаляет класс hidden у элемента, тем самым показывая его на странице, а также добавляет обработчик событий на документ и на кнопку формы
  */
 var openPopup = function () {
-  var submitButton = setupPopupElement.querySelector('.setup-submit');
-  var closeSetup = setupPopupElement.querySelector('.setup-close');
-  setupPopupElement.classList.remove('hidden');
+  var submitButton = setupPopup.querySelector('.setup-submit');
+  var closeSetup = setupPopup.querySelector('.setup-close');
+  setupPopup.classList.remove('hidden');
   createWizards();
   document.querySelector('.setup-similar').classList.remove('hidden');
-
+  userNameInput.addEventListener('focus', function () {
+    isFocus = true;
+  });
+  userNameInput.addEventListener('blur', function () {
+    isFocus = false;
+  });
   document.addEventListener('keydown', onPopupEscPress);
   submitButton.addEventListener('click', onButtonClick);
   submitButton.addEventListener('keydown', onButtonPush);
@@ -118,13 +125,20 @@ var openPopup = function () {
  * Функция добавляет элементу класс hidden, тем самым скрывая его, а также удаляет обработчик событий с документа и с кнопки формы
  */
 var closePopup = function () {
-  var submitButton = setupPopupElement.querySelector('.setup-submit');
+  var submitButton = setupPopup.querySelector('.setup-submit');
+  similarWizardsList.innerHTML = '';
 
-  setupPopupElement.classList.add('hidden');
+  setupPopup.classList.add('hidden');
   document.querySelector('.setup-similar').classList.add('hidden');
   document.removeEventListener('keydown', onPopupEscPress);
   submitButton.removeEventListener('click', onButtonClick);
   submitButton.removeEventListener('keydown', onButtonPush);
+  userNameInput.removeEventListener('focus', function () {
+    isFocus = true;
+  });
+  userNameInput.removeEventListener('blur', function () {
+    isFocus = false;
+  });
   wizardCoat.removeEventListener('click', function () {
     setRandomColor(wizardCoat, COAT_COLORS, coatInput);
   });
