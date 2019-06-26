@@ -78,47 +78,95 @@ var isFocus = false;
  */
 var onPopupEscPress = function (evt) {
   if ((evt.keyCode === ESC_KEYCODE) && (isFocus === false)) {
+    onCloseSetupClick();
+  }
+};
+
+/**
+ * Функция-обработчик, срабатывает при клике на пальто мага в открытом попапе и запустит установку случайного цвета пальто
+ */
+var onWizardCoatClick = function () {
+  setRandomColor(wizardCoat, COAT_COLORS, coatInput);
+};
+
+/**
+ * Функция-обработчик, срабатывает при клике на глаза мага в открытом попапе и запутит установку случайного цвета глаз мага
+ */
+var onWizardEyesClick = function () {
+  setRandomColor(wizardEyes, EYES_COLORS, eyesInput);
+};
+
+/**
+ * Функция-обработчик, срабатывает при клике на фаербол мага в открытом попапе и запутит установку случайного цвета фаербола мага
+ */
+var onWizardFireballClick = function () {
+  setRandomBackground(wizardFireball, FIREBALL_COLORS, fireballInput);
+};
+
+/**
+ * Функция-обработчик  - закрывает попап
+ */
+var onCloseSetupClick = function () {
+  closePopup();
+};
+
+/**
+ * Функция- обрабочик - закрывает попап по нажатию эскейпа
+ * @param {object} evt объект события, который передаётся первым аргументом в обработчик
+ */
+var onCloseSetupPush = function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
     closePopup();
+  }
+};
+
+/**
+ * Функция-обработчик - создает флаг для функции закрытия попапа - при isFocus = true закрытие не произойдет
+ */
+var onUserNameInputFocus = function () {
+  isFocus = true;
+};
+
+/**
+ * Функция-обработчик - создает флаг для функции закрытия попапа - при isFocus = false закрытие произойдет
+ */
+var onUserNameInputBlur = function () {
+  isFocus = false;
+};
+
+/**
+ * Функция- обработчик, открывает попап при нажатии энтер
+ * @param {object} evt объект события, который передаётся первым аргументом в обработчик
+ */
+var onPopupOpenPush = function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    onPopupOpenClick();
   }
 };
 
 /**
  * Функция удаляет класс hidden у элемента, тем самым показывая его на странице, а также добавляет обработчик событий на документ и на кнопку формы
  */
-var openPopup = function () {
+var onPopupOpenClick = function () {
   var submitButton = setupPopup.querySelector('.setup-submit');
   var closeSetup = setupPopup.querySelector('.setup-close');
+  openSetup.removeEventListener('click', onPopupOpenClick);
+
   setupPopup.classList.remove('hidden');
   createWizards();
   document.querySelector('.setup-similar').classList.remove('hidden');
-  userNameInput.addEventListener('focus', function () {
-    isFocus = true;
-  });
-  userNameInput.addEventListener('blur', function () {
-    isFocus = false;
-  });
+  userNameInput.addEventListener('focus', onUserNameInputFocus);
+  userNameInput.addEventListener('blur', onUserNameInputBlur);
   document.addEventListener('keydown', onPopupEscPress);
   submitButton.addEventListener('click', onButtonClick);
   submitButton.addEventListener('keydown', onButtonPush);
-  wizardCoat.addEventListener('click', function () {
-    setRandomColor(wizardCoat, COAT_COLORS, coatInput);
-  });
-  wizardEyes.addEventListener('click', function () {
-    setRandomColor(wizardEyes, EYES_COLORS, eyesInput);
-  });
-  wizardFireball.addEventListener('click', function () {
-    setRandomBackground(wizardFireball, FIREBALL_COLORS, fireballInput);
-  });
+  wizardCoat.addEventListener('click', onWizardCoatClick);
+  wizardEyes.addEventListener('click', onWizardEyesClick);
+  wizardFireball.addEventListener('click', onWizardFireballClick);
 
-  closeSetup.addEventListener('click', function () {
-    closePopup();
-  }, {once: true});
+  closeSetup.addEventListener('click', onCloseSetupClick, {once: true});
 
-  closeSetup.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === ENTER_KEYCODE) {
-      closePopup();
-    }
-  }, {once: true});
+  closeSetup.addEventListener('keydown', onCloseSetupPush, {once: true});
 };
 
 /**
@@ -126,6 +174,7 @@ var openPopup = function () {
  */
 var closePopup = function () {
   var submitButton = setupPopup.querySelector('.setup-submit');
+  openSetup.addEventListener('click', onPopupOpenClick);
   similarWizardsList.innerHTML = '';
 
   setupPopup.classList.add('hidden');
@@ -133,21 +182,11 @@ var closePopup = function () {
   document.removeEventListener('keydown', onPopupEscPress);
   submitButton.removeEventListener('click', onButtonClick);
   submitButton.removeEventListener('keydown', onButtonPush);
-  userNameInput.removeEventListener('focus', function () {
-    isFocus = true;
-  });
-  userNameInput.removeEventListener('blur', function () {
-    isFocus = false;
-  });
-  wizardCoat.removeEventListener('click', function () {
-    setRandomColor(wizardCoat, COAT_COLORS, coatInput);
-  });
-  wizardEyes.removeEventListener('click', function () {
-    setRandomColor(wizardEyes, EYES_COLORS, eyesInput);
-  });
-  wizardFireball.removeEventListener('click', function () {
-    setRandomBackground(wizardFireball, FIREBALL_COLORS, fireballInput);
-  });
+  userNameInput.removeEventListener('focus', onUserNameInputFocus);
+  userNameInput.removeEventListener('blur', onUserNameInputBlur);
+  wizardCoat.removeEventListener('click', onWizardCoatClick);
+  wizardEyes.removeEventListener('click', onWizardEyesClick);
+  wizardFireball.removeEventListener('click', onWizardFireballClick);
 };
 
 
@@ -210,14 +249,8 @@ var setRandomBackground = function (item, array, input) {
   item.style.background = input.value;
 };
 
-openSetup.addEventListener('click', function () {
-  openPopup();
-});
+openSetup.addEventListener('click', onPopupOpenClick);
 
-openSetup.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ENTER_KEYCODE) {
-    openPopup();
-  }
-});
+openSetup.addEventListener('keydown', onPopupOpenPush);
 
 
