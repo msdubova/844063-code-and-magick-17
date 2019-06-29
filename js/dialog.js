@@ -7,7 +7,7 @@
   var defaultX = popup.style.top;
   var defaultY = popup.style.left;
 
-  var defaultPopupCoordinates = function () {
+  var resetPopupCoordinates = function () {
     popup.style.top = defaultX;
     popup.style.left = defaultY;
   };
@@ -60,7 +60,7 @@
 
       document.addEventListener('mousemove', onMouseMove);
       document.addEventListener('mouseup', onMouseUp);
-      popupClose.addEventListener('click', defaultPopupCoordinates);
+      popupClose.addEventListener('click', resetPopupCoordinates);
     });
   };
 

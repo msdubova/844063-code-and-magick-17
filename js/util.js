@@ -10,6 +10,7 @@
   var wizardEyes = document.querySelector('.setup-wizard .wizard-eyes');
   var wizardFireball = document.querySelector('.setup-fireball-wrap');
   var form = setupPopup.querySelector('.setup-wizard-form');
+  var submitButton = setupPopup.querySelector('.setup-submit');
   var WIZARD_NAMES = ['Иван', 'Хуан', 'Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
   var WIZARD_SURNAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
   var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
@@ -45,6 +46,7 @@
     wizardEyes: wizardEyes,
     wizardFireball: wizardFireball,
     form: form,
+    submitButton: submitButton,
     WIZARD_NAMES: WIZARD_NAMES,
     WIZARD_SURNAMES: WIZARD_SURNAMES,
     COAT_COLORS: COAT_COLORS,
