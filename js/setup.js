@@ -23,7 +23,7 @@
    * @param {object} evt объект события, который передаётся первым аргументом в обработчик
    */
   var onPopupEscPress = function (evt) {
-    if ((evt.keyCode === window.util.ESC_KEYCODE) && (isFocus === false)) {
+    if ((evt.keyCode === window.constants.ESC_KEYCODE) && (isFocus === false)) {
       closePopup();
     }
   };
@@ -40,7 +40,7 @@
    * @param {object} evt объект события, который передаётся первым аргументом в обработчик
    */
   var onCloseSetupPush = function (evt) {
-    if (evt.keyCode === window.util.ENTER_KEYCODE) {
+    if (evt.keyCode === window.constants.ENTER_KEYCODE) {
       closePopup();
     }
   };
@@ -49,17 +49,17 @@
    * Функция удаляет класс hidden у элемента, тем самым показывая его на странице, а также добавляет обработчик событий на документ и на кнопку формы
    */
   var onPopupOpenClick = function () {
-    var closeSetup = window.util.setupPopup.querySelector('.setup-close');
+    var closeSetup = window.globalElements.setupPopup.querySelector('.setup-close');
 
     openSetup.removeEventListener('click', onPopupOpenClick);
-    window.util.similarWizardsList.innerHTML = '';
-    window.util.setupPopup.classList.remove('hidden');
+    window.globalElements.similarWizardsList.innerHTML = '';
+    window.globalElements.setupPopup.classList.remove('hidden');
     document.querySelector('.setup-similar').classList.remove('hidden');
 
     window.createWizards();
 
-    window.util.userNameInput.addEventListener('focus', onUserNameInputFocus);
-    window.util.userNameInput.addEventListener('blur', onUserNameInputBlur);
+    window.globalElements.userNameInput.addEventListener('focus', onUserNameInputFocus);
+    window.globalElements.userNameInput.addEventListener('blur', onUserNameInputBlur);
 
     document.addEventListener('keydown', onPopupEscPress);
     closeSetup.addEventListener('click', onCloseSetupClick);
@@ -71,7 +71,7 @@
    * @param {object} evt объект события, который передаётся первым аргументом в обработчик
    */
   var onPopupOpenPush = function (evt) {
-    if (evt.keyCode === window.util.ENTER_KEYCODE) {
+    if (evt.keyCode === window.constants.ENTER_KEYCODE) {
       onPopupOpenClick();
     }
   };
@@ -81,11 +81,11 @@
    */
   var closePopup = function () {
     openSetup.addEventListener('click', onPopupOpenClick);
-    window.util.setupPopup.classList.add('hidden');
+    window.globalElements.setupPopup.classList.add('hidden');
     document.querySelector('.setup-similar').classList.add('hidden');
     document.removeEventListener('keydown', onPopupEscPress);
-    window.util.userNameInput.removeEventListener('focus', onUserNameInputFocus);
-    window.util.userNameInput.removeEventListener('blur', onUserNameInputBlur);
+    window.globalElements.userNameInput.removeEventListener('focus', onUserNameInputFocus);
+    window.globalElements.userNameInput.removeEventListener('blur', onUserNameInputBlur);
   };
 
   openSetup.addEventListener('click', onPopupOpenClick);

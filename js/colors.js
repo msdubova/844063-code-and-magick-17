@@ -1,10 +1,10 @@
 'use strict';
 
 (function () {
-  if (!window.util.setupPopup.classList.contains('.hidden')) {
-    var coatInput = window.util.form.querySelector('input[name="coat-color"]');
-    var eyesInput = window.util.form.querySelector('input[name="eyes-color"]');
-    var fireballInput = window.util.form.querySelector('input[name="fireball-color"]');
+  if (!window.globalElements.setupPopup.classList.contains('.hidden')) {
+    var coatInput = window.globalElements.form.querySelector('input[name="coat-color"]');
+    var eyesInput = window.globalElements.form.querySelector('input[name="eyes-color"]');
+    var fireballInput = window.globalElements.form.querySelector('input[name="fireball-color"]');
     /**
      * Функция присваивает случайный стиль fill элементу и передает этот цвет в форму
      * @param {object} item объект который должен быть прослушан на предмет клика
@@ -31,29 +31,29 @@
      * Функция-обработчик, срабатывает при клике на пальто мага в открытом попапе и запустит установку случайного цвета пальто
      */
     var onWizardCoatClick = function () {
-      setRandomColor(window.util.wizardCoat, window.util.COAT_COLORS, coatInput);
+      setRandomColor(window.globalElements.wizardCoat, window.constants.COAT_COLORS, coatInput);
     };
 
     /**
      * Функция-обработчик, срабатывает при клике на глаза мага в открытом попапе и запутит установку случайного цвета глаз мага
      */
     var onWizardEyesClick = function () {
-      setRandomColor(window.util.wizardEyes, window.util.EYES_COLORS, eyesInput);
+      setRandomColor(window.globalElements.wizardEyes, window.constants.EYES_COLORS, eyesInput);
     };
 
     /**
      * Функция-обработчик, срабатывает при клике на фаербол мага в открытом попапе и запутит установку случайного цвета фаербола мага
      */
     var onWizardFireballClick = function () {
-      setRandomBackground(window.util.wizardFireball, window.util.FIREBALL_COLORS, fireballInput);
+      setRandomBackground(window.globalElements.wizardFireball, window.constants.FIREBALL_COLORS, fireballInput);
     };
-    window.util.wizardCoat.addEventListener('click', onWizardCoatClick);
-    window.util.wizardEyes.addEventListener('click', onWizardEyesClick);
-    window.util.wizardFireball.addEventListener('click', onWizardFireballClick);
+    window.globalElements.wizardCoat.addEventListener('click', onWizardCoatClick);
+    window.globalElements.wizardEyes.addEventListener('click', onWizardEyesClick);
+    window.globalElements.wizardFireball.addEventListener('click', onWizardFireballClick);
 
   } else {
-    window.util.wizardCoat.removeEventListener('click', onWizardCoatClick);
-    window.util.wizardEyes.removeEventListener('click', onWizardEyesClick);
-    window.util.wizardFireball.removeEventListener('click', onWizardFireballClick);
+    window.globalElements.wizardCoat.removeEventListener('click', onWizardCoatClick);
+    window.globalElements.wizardEyes.removeEventListener('click', onWizardEyesClick);
+    window.globalElements.wizardFireball.removeEventListener('click', onWizardFireballClick);
   }
 })();
