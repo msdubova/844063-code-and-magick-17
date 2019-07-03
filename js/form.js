@@ -47,7 +47,7 @@
     var onErrorSubmit = function (errorNotification) {
       if (errorNotification) {
         var node = document.createElement('div');
-        node.style = 'z-index: 100; width: 100%; position: absolute; left: 0; top: 0; font-size: inherit; margin: 0 auto; text-align: center; background-color: tomato;';
+        node.style = 'z-index: 100; width: 500px; height: auto; padding: 20px; top: 50%; left: 50%; transform: translate(-50%, -50%); position: absolute;  font-size: inherit; text-align: center;   background-color: tomato;';
         node.textContent = errorNotification;
         document.body.insertAdjacentElement('afterbegin', node);
       }

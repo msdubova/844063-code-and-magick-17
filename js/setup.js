@@ -55,9 +55,9 @@
     openSetup.removeEventListener('keydown', onPopupOpenClick);
     window.globalElements.similarWizardsList.innerHTML = '';
     window.globalElements.setupPopup.classList.remove('hidden');
-    document.querySelector('.setup-similar').classList.remove('hidden');
+    // document.querySelector('.setup-similar').classList.remove('hidden');
 
-    window.createWizards();
+    // window.createWizards();
 
     window.globalElements.userNameInput.addEventListener('focus', onUserNameInputFocus);
     window.globalElements.userNameInput.addEventListener('blur', onUserNameInputBlur);

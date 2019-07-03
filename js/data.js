@@ -2,32 +2,43 @@
 
 (function () {
   var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
-  var fragment = document.createDocumentFragment();
-  /**
-     * Функция создает имя персонажа
-     * @param {string[]} names массив имен
-     * @param {string[]} surnames массив фамилий
-     * @return {string} имя фамилия
-     */
-  var generateFullName = function (names, surnames) {
-    return (names[window.util.getRandomInRange(names)] + ' ' + surnames[window.util.getRandomInRange(surnames)]);
-  };
+
 
   /**
    * Функция добавляет персонажей в разметку
    */
-  window.createWizards = function () {
-    for (var i = 0; i < 4; i++) {
-      var wizardCloned = similarWizardTemplate.cloneNode(true);
+  window.createWizards = function (wizard) {
 
-      wizardCloned.querySelector('.setup-similar-label').textContent = generateFullName(window.constants.WIZARD_NAMES, window.constants.WIZARD_SURNAMES);
-      wizardCloned.querySelector('.wizard-coat').style.fill = window.util.generateStyle(window.constants.COAT_COLORS);
-      wizardCloned.querySelector('.wizard-eyes').style.fill = window.util.generateStyle(window.constants.EYES_COLORS);
+    var wizardCloned = similarWizardTemplate.cloneNode(true);
 
-      fragment.appendChild(wizardCloned);
-      window.globalElements.similarWizardsList.appendChild(fragment);
-    }
+    wizardCloned.querySelector('.setup-similar-label').textContent = wizard.name;
+    wizardCloned.querySelector('.wizard-coat').style.fill = wizard.colorCoat;
+    wizardCloned.querySelector('.wizard-eyes').style.fill = wizard.colorEyes;
+    return wizardCloned;
   };
 
-  window.createWizards();
+
+  var onSuccess = function (wizards) {
+    var fragment = document.createDocumentFragment();
+
+    for (var i = 0; i < wizards.length; i++) {
+      fragment.appendChild(window.createWizards(wizards[i]));
+    }
+    window.globalElements.similarWizardsList.appendChild(fragment);
+
+    window.globalElements.setupPopup.querySelector('.setup-similar').classList.remove('hidden');
+  };
+
+  var onFail = function (errorNotification) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; width: 500px; height: auto; padding: 20px; top: 50%; left: 50%; transform: translate(-50%, -50%); position: absolute;  font-size: inherit; text-align: center;   background-color: tomato;';
+
+    node.textContent = errorNotification;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
+
+
+  window.load(onSuccess, onFail);
+
+
 })();

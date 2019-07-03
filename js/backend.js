@@ -1,21 +1,29 @@
 'use strict';
 (function () {
-  var URL = 'https://js.dump.academy/code-and-magick';
-
   window.load = function (onLoad, onError) {
+    var URL = 'https://js.dump.academy/code-and-magick/data';
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
-    xhr.addEventListener('load', function () {
-      if (xhr.status === 200) {
-        onLoad(xhr.response);
-      } else {
-        onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+    var onDataGet = function () {
+      var exception;
+      switch (xhr.status) {
+        case 200:
+          onLoad(xhr.response);
+          break;
+        case 500:
+          exception = 'Bad request';
+          break;
+        default:
+          exception = 'Cтатус ответа: : ' + xhr.status + ' ' + xhr.statusText;
+      } if (exception) {
+        onError(exception);
       }
-    });
+    };
+    xhr.addEventListener('load', onDataGet(xhr.response));
 
     xhr.addEventListener('error', function () {
-      onError('Oшибка соединения');
+      onError('Oops');
     });
 
     xhr.addEventListener('timeout', function () {
@@ -29,6 +37,7 @@
   };
 
   window.save = function (data, onLoad, onError) {
+    var URL = 'https://js.dump.academy/code-and-magick';
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
