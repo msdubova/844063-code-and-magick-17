@@ -24,7 +24,7 @@
    */
   var onPopupEscPress = function (evt) {
     if ((evt.keyCode === window.constants.ESC_KEYCODE) && (isFocus === false)) {
-      closePopup();
+      window.closePopup();
     }
   };
 
@@ -32,7 +32,7 @@
    * Функция-обработчик  - закрывает попап
    */
   var onCloseSetupClick = function () {
-    closePopup();
+    window.closePopup();
   };
 
   /**
@@ -41,7 +41,7 @@
    */
   var onCloseSetupPush = function (evt) {
     if (evt.keyCode === window.constants.ENTER_KEYCODE) {
-      closePopup();
+      window.closePopup();
     }
   };
 
@@ -52,6 +52,7 @@
     var closeSetup = window.globalElements.setupPopup.querySelector('.setup-close');
 
     openSetup.removeEventListener('click', onPopupOpenClick);
+    openSetup.removeEventListener('keydown', onPopupOpenClick);
     window.globalElements.similarWizardsList.innerHTML = '';
     window.globalElements.setupPopup.classList.remove('hidden');
     document.querySelector('.setup-similar').classList.remove('hidden');
@@ -79,8 +80,9 @@
   /**
    * Функция добавляет элементу класс hidden, тем самым скрывая его, а также удаляет обработчик событий с документа и с кнопки формы
    */
-  var closePopup = function () {
+  window.closePopup = function () {
     openSetup.addEventListener('click', onPopupOpenClick);
+    openSetup.addEventListener('keydown', onPopupOpenPush);
     window.globalElements.setupPopup.classList.add('hidden');
     document.querySelector('.setup-similar').classList.add('hidden');
     document.removeEventListener('keydown', onPopupEscPress);
