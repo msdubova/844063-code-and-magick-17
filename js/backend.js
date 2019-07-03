@@ -1,26 +1,18 @@
 'use strict';
 (function () {
-  window.load = function (onLoad, onError) {
+  window.download = function (onLoad, onError) {
     var URL = 'https://js.dump.academy/code-and-magick/data';
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
     var onDataGet = function () {
-      var exception;
-      switch (xhr.status) {
-        case 200:
-          onLoad(xhr.response);
-          break;
-        case 500:
-          exception = 'Bad request';
-          break;
-        default:
-          exception = 'Cтатус ответа: : ' + xhr.status + ' ' + xhr.statusText;
-      } if (exception) {
-        onError(exception);
+      if (xhr.status === 200) {
+        onLoad(xhr.response);
+      } else {
+        onError(xhr.status);
       }
-    };
-    xhr.addEventListener('load', onDataGet(xhr.response));
+    }
+    xhr.addEventListener('load', onDataGet);
 
     xhr.addEventListener('error', function () {
       onError('Oops');
