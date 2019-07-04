@@ -1,32 +1,11 @@
 'use strict';
 
 (function () {
+  window.wizards = [];
 
-  var similarWizardTemplate = document.querySelector('#similar-wizard-template').content;
-
-  /**
-     * Функция добавляет персонажей в разметку
-     * @param {object} wizard
-     * @return {object} wizardCloned
-     */
-  window.createWizards = function (wizard) {
-    var wizardCloned = similarWizardTemplate.cloneNode(true).querySelector('.setup-similar-item');
-    wizardCloned.querySelector('.setup-similar-label').textContent = wizard.name;
-    wizardCloned.querySelector('.wizard-coat').style.fill = wizard.colorCoat;
-    wizardCloned.querySelector('.wizard-eyes').style.fill = wizard.colorEyes;
-    return wizardCloned;
-  };
-
-  window.onSuccess = function (wizards) {
-    var fragment = document.createDocumentFragment();
-    var similarList = document.querySelector('.setup-similar-list');
-    var similarContainer = document.querySelector('.setup-similar');
-
-    for (var i = 0; i < 4; i++) {
-      fragment.appendChild(window.createWizards(wizards[i]));
-    }
-    similarList.appendChild(fragment);
-    similarContainer.classList.remove('hidden');
+  window.onSuccess = function (data) {
+    window.wizards = data;
+    window.createWizards(window.wizards);
   };
 
   window.onFail = function (errorNotification) {
