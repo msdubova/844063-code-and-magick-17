@@ -50,7 +50,7 @@
    */
   var onPopupOpenClick = function () {
     var closeSetup = window.globalElements.setupPopup.querySelector('.setup-close');
-
+    window.download(window.onSuccess, window.onFail);
     openSetup.removeEventListener('click', onPopupOpenClick);
     openSetup.removeEventListener('keydown', onPopupOpenClick);
     window.globalElements.similarWizardsList.innerHTML = '';

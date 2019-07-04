@@ -2,7 +2,7 @@
 
 (function () {
 
-  var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
+  var similarWizardTemplate = document.querySelector('#similar-wizard-template').content;
 
   /**
      * Функция добавляет персонажей в разметку
@@ -17,26 +17,24 @@
     return wizardCloned;
   };
 
-  var onSuccess = function (wizards) {
+  window.onSuccess = function (wizards) {
     var fragment = document.createDocumentFragment();
     var similarList = document.querySelector('.setup-similar-list');
     var similarContainer = document.querySelector('.setup-similar');
 
-    for (var i = 0; i < wizards.length; i++) {
+    for (var i = 0; i < 4; i++) {
       fragment.appendChild(window.createWizards(wizards[i]));
     }
     similarList.appendChild(fragment);
     similarContainer.classList.remove('hidden');
   };
 
-  var onFail = function (errorNotification) {
+  window.onFail = function (errorNotification) {
     var node = document.createElement('div');
     node.style = 'z-index: 100; width: 500px; height: auto; padding: 20px; top: 50%; left: 50%; transform: translate(-50%, -50%); position: absolute;  font-size: inherit; text-align: center;   background-color: tomato;';
 
     node.textContent = errorNotification;
     document.body.insertAdjacentElement('afterbegin', node);
   };
-
-  window.download(onSuccess, onFail);
 
 })();

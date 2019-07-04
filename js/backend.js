@@ -11,7 +11,7 @@
       } else {
         onError(xhr.status);
       }
-    }
+    };
     xhr.addEventListener('load', onDataGet);
 
     xhr.addEventListener('error', function () {
